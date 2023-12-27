@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.lesson3.data.Client
 import com.example.lesson3.data.Invoice
 import com.example.lesson3.repository.AppRepository
+import java.util.Date
 
 class InvoiceViewModel : ViewModel() {
     var invoiceList: MutableLiveData<List<Invoice>> = MutableLiveData()
@@ -54,28 +55,30 @@ class InvoiceViewModel : ViewModel() {
         AppRepository.getInstance().fetchInvoice()
     }
 
-    fun appendStudent(name:String, weight:Int, price:Int, calories:Int, info:String, comp:String, prep:Int){
+    fun appendStudent(date1: Date, id_invoice: String, sum_total: Int, date_exec: Date, handed: String, accepted: String, add_info: String, basis_doc: String){
         val invoice = Invoice()
-        invoice.name = name
-        invoice.weight = weight
-        invoice.price = price
-        invoice.calories = calories
-        invoice.info = info
+        invoice.date1 = date1
+        invoice.sum_total = sum_total
+        invoice.id_invoice = id_invoice
+        invoice.date_exec = date_exec
+        invoice.handed = handed
         invoice.clientID = client!!.id
-        invoice.comp = comp
-        invoice.prep = prep
+        invoice.accepted = accepted
+        invoice.add_info = add_info
+        invoice.basis_doc = basis_doc
         AppRepository.getInstance().addInvoice(invoice)
     }
 
-    fun updateStudent(name:String, weight:Int, price:Int, calories:Int, info:String, comp:String, prep:Int){
+    fun updateStudent(date1: Date, id_invoice: String, sum_total: Int, date_exec: Date, handed: String, accepted: String, add_info: String, basis_doc: String){
         if (_invoice!=null){
-            _invoice!!.name = name
-            _invoice!!.weight = weight
-            _invoice!!.price = price
-            _invoice!!.calories = calories
-            _invoice!!.info = info
-            _invoice!!.comp = comp
-            _invoice!!.prep = prep
+            _invoice!!.date1 = date1
+            _invoice!!.id_invoice = id_invoice
+            _invoice!!.sum_total = sum_total
+            _invoice!!.date_exec = date_exec
+            _invoice!!.handed = handed
+            _invoice!!.accepted = accepted
+            _invoice!!.add_info = add_info
+            _invoice!!.basis_doc = basis_doc
             AppRepository.getInstance().updateInvoice(_invoice!!)
         }
     }

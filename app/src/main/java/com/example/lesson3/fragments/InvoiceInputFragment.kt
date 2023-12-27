@@ -11,6 +11,7 @@ import com.example.lesson3.databinding.FragmentStudentInput2Binding
 import com.example.lesson3.repository.AppRepository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.text.SimpleDateFormat
 
 private const val ARG_PARAM1 = "student_param"
 
@@ -35,41 +36,46 @@ class InvoiceInputFragment : Fragment() {
         }
     }
 
-    fun validation (et1: String, et2: String, et3: String, et4: String, et5: String, et6: String, et7: String ){
+    fun validation (et1: String, et2: String, et3: String, et4: String, et5: String, et6: String, et7: String, et8: String){
         flag_validation = true
-        if (et1.isBlank() or ! et1.matches(Regex("^[a-zA-Z_]+$"))) {
-            binding.etName.requestFocus()
-            binding.etName.setError("Введите корректные данные")
+        if (et1.isBlank()) {
+            binding.etDate1.requestFocus()
+            binding.etDate1.setError("Введите корректные данные")
             flag_validation = false
         }
-        if (et2.isBlank() or !(et5.toString().toInt() > 1)) {
-            binding.etWeight.requestFocus()
-            binding.etWeight.setError("Введите корректные данные")
+        if (et2.isBlank() or !(et2.toString().toInt() > 1)) {
+            binding.etSum.requestFocus()
+            binding.etSum.setError("Введите корректные данные")
             flag_validation = false
         }
-        if (et3.isBlank() or !(et5.toString().toInt() > 1)) {
-            binding.etPrice.requestFocus()
-            binding.etPrice.setError("Введите корректные данные")
+        if (et3.isBlank()) {
+            binding.etIDInv.requestFocus()
+            binding.etIDInv.setError("Введите корректные данные")
             flag_validation = false
         }
         if (et4.isBlank()) {
+            binding.etDateExec.requestFocus()
+            binding.etDateExec.setError("Введите корректные данные")
+            flag_validation = false
+        }
+        if (et5.isBlank()) {
+            binding.etHanded.requestFocus()
+            binding.etHanded.setError("Введите корректные данные")
+            flag_validation = false
+        }
+        if (et6.isBlank()) {
+            binding.etAccepted.requestFocus()
+            binding.etAccepted.setError("Введите корректные данные")
+            flag_validation = false
+        }
+        if (et7.isBlank()) {
             binding.etInfo.requestFocus()
             binding.etInfo.setError("Введите корректные данные")
             flag_validation = false
         }
-        if (et5.isBlank() or !(et5.toString().toInt() > 1)) {
-            binding.editCalories.requestFocus()
-            binding.editCalories.setError("Введите корректные данные")
-            flag_validation = false
-        }
-        if (et6.isBlank()) {
-            binding.etComp.requestFocus()
-            binding.etComp.setError("Введите корректные данные")
-            flag_validation = false
-        }
-        if (et7.isBlank() or !(et7.toString().toInt() > 1)) {
-            binding.etPrep.requestFocus()
-            binding.etPrep.setError("Введите корректные данные")
+        if (et8.isBlank()) {
+            binding.etBasisDoc.requestFocus()
+            binding.etBasisDoc.setError("Введите корректные данные")
             flag_validation = false
         }
     }
@@ -80,37 +86,46 @@ class InvoiceInputFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        flag = !(invoice.shortName.isBlank())
+        flag = !(invoice.sum_total.toString().isBlank())
         _binding = FragmentStudentInput2Binding.inflate(inflater, container, false)
         binding.btSave.text = if (flag) "Изменить" else "Добавить"
-        binding.etName.setText(invoice.name)
-        binding.etWeight.setText(invoice.weight.toString())
-        binding.etPrice.setText(invoice.price.toString())
-        binding.etInfo.setText(invoice.info)
-        binding.editCalories.setText(invoice.calories.toString())
-        binding.etComp.setText(invoice.comp)
-        binding.etPrep.setText(invoice.prep.toString())
+        binding.etDate1.setText(invoice.date1.toString())
+        binding.etSum.setText(invoice.sum_total.toString())
+        binding.etIDInv.setText(invoice.id_invoice)
+        binding.etDateExec.setText(invoice.date_exec.toString())
+        binding.etHanded.setText(invoice.handed)
+        binding.etAccepted.setText(invoice.accepted)
+        binding.etInfo.setText(invoice.add_info)
+        binding.etBasisDoc.setText(invoice.basis_doc)
+
+
         binding.btCancel.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         binding.btSave.setOnClickListener {
             validation(
-                binding.etName.text.toString(),
-                binding.etWeight.text.toString(),
-                binding.etPrice.text.toString(),
+                binding.etDate1.text.toString(),
+                binding.etSum.text.toString(),
+                binding.etIDInv.text.toString(),
+                binding.etDateExec.text.toString(),
+                binding.etHanded.text.toString(),
+                binding.etAccepted.text.toString(),
                 binding.etInfo.text.toString(),
-                binding.editCalories.text.toString(),
-                binding.etComp.text.toString(),
-                binding.etPrep.text.toString()
+                binding.etBasisDoc.text.toString()
             )
             if (flag_validation) {
-                invoice.name = binding.etName.text.toString()
-                invoice.weight = binding.etWeight.text.toString().toInt()
-                invoice.price = binding.etPrice.text.toString().toInt()
-                invoice.info = binding.etInfo.text.toString()
-                invoice.calories = binding.editCalories.text.toString().toInt()
-                invoice.comp = binding.etComp.text.toString()
-                invoice.prep = binding.etPrep.text.toString().toInt()
+                invoice.date1.time = SimpleDateFormat("yyyy.MM.dd").parse(binding.etDate1.text.toString())?.time ?: invoice.date1.time
+                // invoice.date1 = binding.etDate1.date
+                invoice.sum_total = binding.etSum.text.toString().toInt()
+                invoice.id_invoice = binding.etIDInv.text.toString()
+                // invoice.date_exec = binding.etDateExec.text
+                invoice.date_exec.time = SimpleDateFormat("yyyy.MM.dd").parse(binding.etDateExec.text.toString())?.time ?: invoice.date_exec.time
+                invoice.handed = binding.etHanded.text.toString()
+               // invoice.clientID = client!!.id
+                invoice.accepted = binding.etAccepted.text.toString()
+                invoice.add_info = binding.etInfo.text.toString()
+                invoice.basis_doc = binding.etBasisDoc.text.toString()
+
                 if (flag)
                     AppRepository.getInstance().updateInvoice(invoice)
                 else

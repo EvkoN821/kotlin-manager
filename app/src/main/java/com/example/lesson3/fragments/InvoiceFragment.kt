@@ -79,7 +79,7 @@ class InvoiceFragment : Fragment(){
     private fun deleteDialog(){
         AlertDialog.Builder(requireContext())
             .setTitle("Удаление!")
-            .setMessage("Вы действительно хотите удалить это блюдо ${viewModel.student?.shortName ?: ""}?")
+            .setMessage("Вы действительно хотите удалить эту накладную ${viewModel.student?.id_invoice?: ""}?")
             .setPositiveButton("да"){_,_ ->
                 viewModel.deleteStudent()
             }
@@ -91,13 +91,14 @@ class InvoiceFragment : Fragment(){
     private fun infoDialog(){
         AlertDialog.Builder(requireContext())
             .setTitle("Полная информация")
-            .setMessage("Наименование блюда: ${viewModel.student?.shortName ?: ""} " +
-                    "\n\nВес блюда: ${viewModel.student?.getWeight ?: ""} гр." +
-                    "\n\nЦена: ${viewModel.student?.getPrice ?: ""} руб." +
-                    "\n\nКалории: ${viewModel.student?.calories ?: ""} ккал." +
-                    "\n\nДополнительная информация: ${viewModel.student?.info ?: ""}" +
-                    "\n\nИнгридиенты: ${viewModel.student?.comp ?: ""}" +
-                    "\n\nВремя приготовления: ${viewModel.student?.prep ?: ""} минут")
+//            .setMessage("Наименование блюда: ${viewModel.student?.shortName ?: ""} " +
+//                    "\n\nВес блюда: ${viewModel.student?.getWeight ?: ""} гр." +
+//                    "\n\nЦена: ${viewModel.student?.getPrice ?: ""} руб." +
+//                    "\n\nКалории: ${viewModel.student?.calories ?: ""} ккал." +
+//                    "\n\nДополнительная информация: ${viewModel.student?.info ?: ""}" +
+//                    "\n\nИнгридиенты: ${viewModel.student?.comp ?: ""}" +
+//                    "\n\nВремя приготовления: ${viewModel.student?.prep ?: ""} минут")
+            .setMessage("dasdsaasdadsdasads")
             .setNegativeButton("скрыть", null)
             .setCancelable(true)
             .create()
@@ -146,11 +147,13 @@ class InvoiceFragment : Fragment(){
                     if (invoice==viewModel.student)
                         updateCurrentView(itemView)
                     val tvName = itemView.findViewById<TextView>(R.id.tvName)
-                    tvName.text="Наименование: " + invoice.name
+                    tvName.text="дата: " + invoice.date1
                     val tvWeight = itemView.findViewById<TextView>(R.id.tvWeight)
-                    tvWeight.text= "вес порции: " +invoice.weight.toString() + "гр."
+                    tvWeight.text= "номер накладной: " +invoice.id_invoice.toString()
                     val tvPrice = itemView.findViewById<TextView>(R.id.tvPrice)
-                    tvPrice.text= "цена: " + invoice.price.toString() + "руб."
+                    tvPrice.text= "сумма: " + invoice.sum_total.toString() + "руб."
+                    val tvDateEx = itemView.findViewById<TextView>(R.id.tvDateEx)
+                    tvDateEx.text= "сумма: " + invoice.date_exec.toString()
 //                    viewModel.set_Group(client, 1)
 //                    tvName.setOnClickListener {
 //                        viewModel.update_info(1)
