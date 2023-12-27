@@ -22,7 +22,7 @@ class OfflineDBRepository(val dao: ListDAO): DBRepository {
     override suspend fun deleteAllClients() =dao.deleteAllClients()
 
     override fun getAllInvoices(): Flow<List<Invoice>> =dao.getAllInvoices()
-    override fun getClientInvoices(courseId : UUID): Flow<List<Invoice>> =dao.getClientInvoices(courseId)
+    override fun getClientInvoices(courseID : UUID): Flow<List<Invoice>> =dao.getClientInvoices(courseID)
     override suspend fun insertInvoice(invoice: Invoice) =dao.insertInvoice(invoice)
     override suspend fun deleteInvoice(invoice: Invoice) =dao.deleteInvoice(invoice)
     override suspend fun deleteAllInvoices() =dao.deleteAllInvoices()

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Restus</string>
+    <string name="app_name">Накладные</string>
     <string name="preference_key_faculty_list">lesson3.preference.key.faculty_list</string>>
     <string name="preference_key_group_list">lesson3.preference.key.group_list</string>
     <string name="preference_key_student_list">lesson3.preference.key.student_list</string>

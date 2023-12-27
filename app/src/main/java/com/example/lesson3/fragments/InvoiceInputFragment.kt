@@ -86,7 +86,7 @@ class InvoiceInputFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        flag = !(invoice.sum_total.toString().isBlank())
+        flag = !(invoice.add_info.toString().isBlank())
         _binding = FragmentStudentInput2Binding.inflate(inflater, container, false)
         binding.btSave.text = if (flag) "Изменить" else "Добавить"
         binding.etDate1.setText(invoice.date1.toString())
@@ -114,18 +114,17 @@ class InvoiceInputFragment : Fragment() {
                 binding.etBasisDoc.text.toString()
             )
             if (flag_validation) {
-                invoice.date1.time = SimpleDateFormat("yyyy.MM.dd").parse(binding.etDate1.text.toString())?.time ?: invoice.date1.time
+                invoice.date1.time = SimpleDateFormat("dd.MM.yyyy").parse(binding.etDate1.text.toString())?.time ?: invoice.date1.time
                 // invoice.date1 = binding.etDate1.date
                 invoice.sum_total = binding.etSum.text.toString().toInt()
                 invoice.id_invoice = binding.etIDInv.text.toString()
                 // invoice.date_exec = binding.etDateExec.text
-                invoice.date_exec.time = SimpleDateFormat("yyyy.MM.dd").parse(binding.etDateExec.text.toString())?.time ?: invoice.date_exec.time
+                invoice.date_exec.time = SimpleDateFormat("dd.MM.yyyy").parse(binding.etDateExec.text.toString())?.time ?: invoice.date_exec.time
                 invoice.handed = binding.etHanded.text.toString()
                // invoice.clientID = client!!.id
                 invoice.accepted = binding.etAccepted.text.toString()
                 invoice.add_info = binding.etInfo.text.toString()
                 invoice.basis_doc = binding.etBasisDoc.text.toString()
-
                 if (flag)
                     AppRepository.getInstance().updateInvoice(invoice)
                 else

@@ -46,18 +46,10 @@ public class MainActivity : AppCompatActivity(), MainActivityCallbacks {
         authBrurb.text = "-1"
 
 
-//
-//        while (true){
-//            if (userType != -1){
-//                break
-//            }
-//        }
-
-
     }
 
 
-//
+
     val auth = View.OnClickListener {
         btnAuth.error = null
         var errLogin = false

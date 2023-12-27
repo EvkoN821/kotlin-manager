@@ -3,20 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/miAppendFaculty"
-        android:title="Добавить ресторан" />
+        android:title="Добавить менеджера" />
     <item
         android:id="@+id/miUpdateFaculty"
-        android:title="Изменить ресторан" />
+        android:title="Изменить менеджера" />
     <item
         android:id="@+id/miDeleteFaculty"
-        android:title="Удалить ресторан" />
+        android:title="Удалить менеджера" />
     <item
         android:id="@+id/miAppendGroup"
-        android:title="Добавить категорию" />
+        android:title="Добавить клиента" />
     <item
         android:id="@+id/miUpdateGroup"
-        android:title="Изменить категорию" />
+        android:title="Изменить клиента" />
     <item
         android:id="@+id/miDeleteGroup"
-        android:title="Удалить категорию" />
+        android:title="Удалить клиента" />
 </menu>

@@ -99,7 +99,6 @@ class InvoiceFragment : Fragment(){
                     "\n\nгрузополучатель: ${viewModel.student?.accepted ?: ""}" +
                     "\n\nдополнительная информация: ${viewModel.student?.add_info ?: ""}" +
                     "\n\nдокумент-основание: ${viewModel.student?.basis_doc ?: ""}")
-            .setMessage("dasdsaasdadsdasads")
             .setNegativeButton("скрыть", null)
             .setCancelable(true)
             .create()
@@ -154,7 +153,7 @@ class InvoiceFragment : Fragment(){
                     val tvPrice = itemView.findViewById<TextView>(R.id.tvPrice)
                     tvPrice.text= "сумма: " + invoice.sum_total.toString() + "руб."
                     val tvDateEx = itemView.findViewById<TextView>(R.id.tvDateEx)
-                    tvDateEx.text= "сумма: " + invoice.date_exec.toString()
+                    tvDateEx.text= "дата исполнения: " + invoice.date_exec.toString()
 
                     tvDate1.setOnLongClickListener {
                         tvDate1.callOnClick()
