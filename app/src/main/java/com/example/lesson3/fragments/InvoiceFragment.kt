@@ -29,17 +29,17 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class FoodFragment : Fragment(){
+class InvoiceFragment : Fragment(){
 
     companion object {
         private lateinit var client: Client
-        fun newInstance(client: Client): FoodFragment{
+        fun newInstance(client: Client): InvoiceFragment{
             this.client = client
-            return FoodFragment()
+            return InvoiceFragment()
         }
     }
 
-    private lateinit var viewModel: FoodViewModel
+    private lateinit var viewModel: InvoiceViewModel
     private lateinit var _binding : FragmentStudentBinding
 
     val binding
@@ -57,7 +57,7 @@ class FoodFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel= ViewModelProvider(this).get(FoodViewModel::class.java)
+        viewModel= ViewModelProvider(this).get(InvoiceViewModel::class.java)
         viewModel.set_Group(client)
         viewModel.invoiceList.observe(viewLifecycleOwner){
             binding.rvStudent.adapter=StudentAdapter(it)
@@ -105,7 +105,7 @@ class FoodFragment : Fragment(){
     }
 
     private fun editStudent(invoice: Invoice? = null){
-        (requireActivity() as MainActivityCallbacks).showFragment(NamesOfFragment.STUDENT, invoice)
+        (requireActivity() as MainActivityCallbacks).showFragment(NamesOfFragment.INVOICE, invoice)
         (requireActivity() as MainActivityCallbacks).newTitle("Категория блюд ${viewModel.client!!.name}")
     }
 

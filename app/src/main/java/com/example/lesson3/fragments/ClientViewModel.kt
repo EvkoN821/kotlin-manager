@@ -7,7 +7,7 @@ import com.example.lesson3.data.Client
 import com.example.lesson3.myConsts.TAG
 import com.example.lesson3.repository.AppRepository
 
-class CourseViewModel : ViewModel() {
+class ClientViewModel : ViewModel() {
 
     var clientList: MutableLiveData<List<Client>> = MutableLiveData()
     private var _client : Client? = null
@@ -16,7 +16,7 @@ class CourseViewModel : ViewModel() {
 
     init {
         AppRepository.getInstance().listOfClient.observeForever{
-            clientList.postValue(AppRepository.getInstance().restaurantCourses)
+            clientList.postValue(AppRepository.getInstance().managerClients)
         }
 
         AppRepository.getInstance().client.observeForever{
@@ -25,36 +25,36 @@ class CourseViewModel : ViewModel() {
         }
 
         AppRepository.getInstance().manager.observeForever{
-            clientList.postValue(AppRepository.getInstance().restaurantCourses)
+            clientList.postValue(AppRepository.getInstance().managerClients)
         }
     }
 
     fun deleteGroup(){
         if(group!=null)
-            AppRepository.getInstance().deleteCourse(group!!)
+            AppRepository.getInstance().deleteClient(group!!)
     }
 
     fun appendGroup(groupName: String){
         val client=Client()
         client.name=groupName
         client.mangerID=faculty!!.id
-        AppRepository.getInstance().addCourse(client)
+        AppRepository.getInstance().addClient(client)
     }
 
     fun updateGroup(groupName: String){
         if (_client!=null){
             _client!!.name=groupName
-            AppRepository.getInstance().updateCourse(_client!!)
+            AppRepository.getInstance().updateClient(_client!!)
         }
     }
 
     fun setCurrentGroup(position: Int){
         if ((clientList.value?.size ?: 0)>position)
-            clientList.value?.let{ AppRepository.getInstance().setCurrentCourse(it.get(position))}
+            clientList.value?.let{ AppRepository.getInstance().setCurrentClient(it.get(position))}
     }
 
     fun setCurrentGroup(client: Client){
-        AppRepository.getInstance().setCurrentCourse(client)
+        AppRepository.getInstance().setCurrentClient(client)
     }
 
     val getGroupListPosition

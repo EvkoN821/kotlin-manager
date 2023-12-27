@@ -11,8 +11,8 @@ import android.widget.TextView
 import androidx.activity.addCallback
 import com.example.lesson3.data.Invoice
 import com.example.lesson3.fragments.FacultyFragment
-import com.example.lesson3.fragments.CourseFragment
-import com.example.lesson3.fragments.FoodInputFragment
+import com.example.lesson3.fragments.ClientFragment
+import com.example.lesson3.fragments.InvoiceInputFragment
 import com.example.lesson3.interfaces.MainActivityCallbacks
 import com.example.lesson3.repository.AppRepository
 
@@ -94,14 +94,14 @@ public class MainActivity : AppCompatActivity(), MainActivityCallbacks {
             if(supportFragmentManager.backStackEntryCount>0){
                 supportFragmentManager.popBackStack()
                 when (activeFragment){
-                    NamesOfFragment.FACULTY->{
+                    NamesOfFragment.MANAGER->{
                         finish()
                     }
-                    NamesOfFragment.GROUP->{
-                        activeFragment=NamesOfFragment.FACULTY
+                    NamesOfFragment.CLIENT->{
+                        activeFragment=NamesOfFragment.MANAGER
                     }
-                    NamesOfFragment.STUDENT->{
-                        activeFragment=NamesOfFragment.GROUP
+                    NamesOfFragment.INVOICE->{
+                        activeFragment=NamesOfFragment.CLIENT
                     }
                     else ->{
 
@@ -135,15 +135,15 @@ public class MainActivity : AppCompatActivity(), MainActivityCallbacks {
         return true
     }
 
-    var activeFragment : NamesOfFragment=NamesOfFragment.FACULTY
+    var activeFragment : NamesOfFragment=NamesOfFragment.MANAGER
 
     private fun updateMenu(fragmentType: NamesOfFragment){
-        _miAppendFaculty?.isVisible = fragmentType == NamesOfFragment.FACULTY
-        _miUpdateFaculty?.isVisible = fragmentType == NamesOfFragment.FACULTY
-        _miDeleteFaculty?.isVisible = fragmentType == NamesOfFragment.FACULTY
-        _miAppendGroup?.isVisible = fragmentType == NamesOfFragment.GROUP
-        _miUpdateGroup?.isVisible = fragmentType == NamesOfFragment.GROUP
-        _miDeleteGroup?.isVisible = fragmentType == NamesOfFragment.GROUP
+        _miAppendFaculty?.isVisible = fragmentType == NamesOfFragment.MANAGER
+        _miUpdateFaculty?.isVisible = fragmentType == NamesOfFragment.MANAGER
+        _miDeleteFaculty?.isVisible = fragmentType == NamesOfFragment.MANAGER
+        _miAppendGroup?.isVisible = fragmentType == NamesOfFragment.CLIENT
+        _miUpdateGroup?.isVisible = fragmentType == NamesOfFragment.CLIENT
+        _miDeleteGroup?.isVisible = fragmentType == NamesOfFragment.CLIENT
         if (AuthStatus.userType != 1) {
             _miAppendFaculty?.isVisible = false
             _miUpdateFaculty?.isVisible = false
@@ -172,17 +172,17 @@ public class MainActivity : AppCompatActivity(), MainActivityCallbacks {
                 true
             }
             R.id.miAppendGroup -> {
-                val fedit: Edit = CourseFragment.getInstance()
+                val fedit: Edit = ClientFragment.getInstance()
                 fedit.append()
                 true
             }
             R.id.miUpdateGroup -> {
-                val fedit: Edit = CourseFragment.getInstance()
+                val fedit: Edit = ClientFragment.getInstance()
                 fedit.update()
                 true
             }
             R.id.miDeleteGroup -> {
-                val fedit: Edit = CourseFragment.getInstance()
+                val fedit: Edit = ClientFragment.getInstance()
                 fedit.delete()
                 true
             }
@@ -192,25 +192,25 @@ public class MainActivity : AppCompatActivity(), MainActivityCallbacks {
 
     override fun showFragment(fragmentType: NamesOfFragment, invoice: Invoice?){
         when(fragmentType){
-            NamesOfFragment.FACULTY->{
+            NamesOfFragment.MANAGER->{
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.fcMain, FacultyFragment.getInstance())
                     .addToBackStack(null)
                     .commit()
             }
-            NamesOfFragment.GROUP->{
+            NamesOfFragment.CLIENT->{
                 supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.fcMain, CourseFragment.newInstance())
+                    .replace(R.id.fcMain, ClientFragment.newInstance())
                     .addToBackStack(null)
                     .commit()
             }
-            NamesOfFragment.STUDENT->{
+            NamesOfFragment.INVOICE->{
                 if(invoice!=null)
                     supportFragmentManager
                         .beginTransaction()
-                        .replace(R.id.fcMain, FoodInputFragment.newInstance(invoice))
+                        .replace(R.id.fcMain, InvoiceInputFragment.newInstance(invoice))
                         .addToBackStack(null)
                         .commit()
             }

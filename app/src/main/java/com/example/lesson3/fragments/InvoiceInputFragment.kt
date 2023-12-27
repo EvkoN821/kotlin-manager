@@ -14,7 +14,7 @@ import com.google.gson.reflect.TypeToken
 
 private const val ARG_PARAM1 = "student_param"
 
-class FoodInputFragment : Fragment() {
+class InvoiceInputFragment : Fragment() {
     private lateinit var invoice: Invoice
     private lateinit var _binding : FragmentStudentInput2Binding
     var flag_validation = true
@@ -112,9 +112,9 @@ class FoodInputFragment : Fragment() {
                 invoice.comp = binding.etComp.text.toString()
                 invoice.prep = binding.etPrep.text.toString().toInt()
                 if (flag)
-                    AppRepository.getInstance().updateFood(invoice)
+                    AppRepository.getInstance().updateInvoice(invoice)
                 else
-                    AppRepository.getInstance().addFood(invoice)
+                    AppRepository.getInstance().addInvoice(invoice)
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
@@ -125,7 +125,7 @@ class FoodInputFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(invoice: Invoice) =
-            FoodInputFragment().apply {
+            InvoiceInputFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, Gson().toJson(invoice))
                 }

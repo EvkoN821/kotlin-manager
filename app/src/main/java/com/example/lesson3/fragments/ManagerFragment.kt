@@ -40,7 +40,7 @@ class FacultyFragment:Fragment(), MainActivity.Edit {
         }
     }
 
-    private lateinit var viewModel: RestaurantViewModel
+    private lateinit var viewModel: ManagerViewModel
     private var _binding: FragmentFacultyBinding?=null
     val binding
         get()=_binding!!
@@ -58,7 +58,7 @@ class FacultyFragment:Fragment(), MainActivity.Edit {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RestaurantViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ManagerViewModel::class.java)
         viewModel.managerList.observe(viewLifecycleOwner){
             binding.rvFaculty.adapter=FacultyAdapter(it)
         }
@@ -156,7 +156,7 @@ class FacultyFragment:Fragment(), MainActivity.Edit {
                     }
                     tv.setOnLongClickListener {
                         tv.callOnClick()
-                        (requireActivity() as MainActivityCallbacks).showFragment(NamesOfFragment.GROUP)
+                        (requireActivity() as MainActivityCallbacks).showFragment(NamesOfFragment.CLIENT)
                         true
                     }
                 }

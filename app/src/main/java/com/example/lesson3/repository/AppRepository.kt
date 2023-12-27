@@ -46,87 +46,88 @@ class AppRepository {
     var invoice: MutableLiveData<Invoice> = MutableLiveData()
 
 
-    fun getRestaurantPosition(manager: Manager): Int=listOfManager.value?.indexOfFirst {
+    fun getManagerPosition(manager: Manager): Int=listOfManager.value?.indexOfFirst {
         it.id==manager.id } ?:-1
 
-    fun getRestaurantPosition()=getRestaurantPosition(manager.value?: Manager())
+    fun getManagerPosition()=getManagerPosition(manager.value?: Manager())
 
-    fun setCurrentRestaurant(position:Int){
+    fun setCurrentManager(position:Int){
         if (position<0 || (listOfManager.value?.size!! <= position))
-            return setCurrentRestaurant(listOfManager.value!![position])
+            return setCurrentManager(listOfManager.value!![position])
     }
 
-    fun setCurrentRestaurant(_manager: Manager){
+    fun setCurrentManager(_manager: Manager){
         manager.postValue(_manager)
     }
 
-    fun saveData(){
 
-    }
 
     fun loadData(){
-        fetchRestaurants()
+        fetchManagers()
     }
 
-    fun getCoursePosition(client: Client): Int=listOfClient.value?.indexOfFirst {
+    fun getClientPosition(client: Client): Int=listOfClient.value?.indexOfFirst {
         it.id==client.id } ?:-1
 
-    fun getCoursePosition()=getCoursePosition(client.value?: Client())
+    fun getClientPosition()=getClientPosition(client.value?: Client())
 
-    fun setCurrentCourse(position:Int){
+    fun setCurrentClient(position:Int){
         if (listOfClient.value==null || position<0 ||
             (listOfClient.value?.size!! <=position))
-            return setCurrentCourse(listOfClient.value!![position])
+            return setCurrentClient(listOfClient.value!![position])
     }
 
-    fun setCurrentCourse(_client: Client){
+    fun setCurrentClient(_client: Client){
         client.postValue(_client)
     }
 
-    val restaurantCourses
+    val managerClients
         get()= listOfClient.value?.filter { it.mangerID == (manager.value?.id ?: 0) }?.sortedBy { it.name }?: listOf()
 
-    fun getFoodPosition(invoice: Invoice): Int=listOfInvoice.value?.indexOfFirst {
+    fun getInvoicePosition(invoice: Invoice): Int=listOfInvoice.value?.indexOfFirst {
         it.id==invoice.id } ?:-1
 
-    fun getFoodPosition()=getFoodPosition(invoice.value?: Invoice())
+    fun getInvoicePosition()=getInvoicePosition(invoice.value?: Invoice())
 
-    fun setCurrentFood(position:Int){
+    fun setCurrentInvoice(position:Int){
         if (listOfInvoice.value==null || position<0 ||
             (listOfInvoice.value?.size!! <=position))
-            return setCurrentFood(listOfInvoice.value!![position])
+            return setCurrentInvoice(listOfInvoice.value!![position])
     }
 
-    fun setCurrentFood(_invoice: Invoice){
+    fun setCurrentInvoice(_invoice: Invoice){
         invoice.postValue(_invoice)
     }
 
-    fun getCourseFoods(courseID: Int) =
-        (listOfInvoice.value?.filter { it.clientID == courseID }?.sortedBy { it.shortName.lowercase() }?: listOf())
-    fun getCourseFoodsByPrice(courseID: Int) =
-        (listOfInvoice.value?.filter { it.clientID == courseID }?.sortedBy { it.getPrice }?: listOf())
-    fun getCourseFoodsByWeight(courseID: Int) =
-        (listOfInvoice.value?.filter { it.clientID == courseID }?.sortedBy { it.getWeight }?: listOf())
+    fun getClientInvoices(clientID: Int) =
+        (listOfInvoice.value?.filter { it.clientID == clientID }?.sortedBy { it.date1.toString() }?: listOf())
+    fun getClientInvoicesId(clientID: Int) =
+        (listOfInvoice.value?.filter { it.clientID == clientID }?.sortedBy { it.id_invoice }?: listOf())
+    fun getclientInvoicesSum(clientID: Int) =
+        (listOfInvoice.value?.filter { it.clientID == clientID }?.sortedBy { it.sum_total }?: listOf())
+    fun getclientInvoicesDateExec(clientID: Int) =
+        (listOfInvoice.value?.filter { it.clientID == clientID }?.sortedBy { it.date_exec }?: listOf())
+
 
     private val listDB by lazy {OfflineDBRepository(ListDatabase.getDatabase(MyApplication.context).listDAO())}
 
     private val myCoroutineScope = CoroutineScope(Dispatchers.Main)
 
     fun getSearch(s: String, courseID: Int) =
-        (listOfInvoice.value?.filter { ((s in it.name.toString() ) or (s in it.price.toString()) or (s in it.weight.toString()) ) and (it.clientID == courseID) }?.sortedBy { it.shortName }?: listOf())
+        (listOfInvoice.value?.filter { ((s in it.date1.toString() ) or (s in it.id_invoice.toString()) or (s in it.sum_total.toString()) or (s in it.date_exec.toString())) and (it.clientID == courseID) }?.sortedBy { it.date1 }?: listOf())
 
     fun onDestroy(){
         myCoroutineScope.cancel()
     }
 
-    val listOfManager: LiveData<List<Manager>> = listDB.getFaculty().asLiveData()
-    val listOfClient: LiveData<List<Client>> = listDB.getAllGroups().asLiveData()
-    val listOfInvoice: LiveData<List<Invoice>> = listDB.getAllStudents().asLiveData()
+    val listOfManager: LiveData<List<Manager>> = listDB.getManager().asLiveData()
+    val listOfClient: LiveData<List<Client>> = listDB.getAllClients().asLiveData()
+    val listOfInvoice: LiveData<List<Invoice>> = listDB.getAllInvoices().asLiveData()
 
 
     private var listAPI = ListConnection.getClient().create(ListAPI::class.java)
 
-    fun fetchRestaurants(){
+    fun fetchManagers(){
         listAPI.getRestaurants().enqueue(object: Callback<Managers> {
             override fun onFailure(call: Call<Managers>, t :Throwable){
                 Log.d(TAG,"Ошибка получения списка факультетов", t)
@@ -136,65 +137,65 @@ class AppRepository {
                 response: Response<Managers>
             ){
                 if (response.code()==200){
-                    val restaurants = response.body()
-                    val items = restaurants?.items?:emptyList()
-                    Log.d(TAG,"Получен список факультетов $items")
+                    val managers = response.body()
+                    val items = managers?.items?:emptyList()
+                    Log.d(TAG,"Получен список менеджеров $items")
                     for (f in items){
                         println(f.id::class.java.typeName)
                         println(f.name::class.java.typeName)
                     }
                     myCoroutineScope.launch{
-                        listDB.deleteAllFaculty()
+                        listDB.deleteAllManagers()
                         for (f in items){
-                            listDB.insertFaculty(f)
+                            listDB.insertManager(f)
                         }
                     }
-                    fetchCourses()
+                    fetchClients()
                 }
             }
         })
     }
 
-    fun addRestaurant(manager: Manager){
+    fun addManager(manager: Manager){
         listAPI.insertRestaurant(manager)
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response: Response<PostResult>){
-                    if (response.code()==200) fetchRestaurants()
+                    if (response.code()==200) fetchManagers()
                 }
                 override fun onFailure(call:Call<PostResult>,t: Throwable){
-                    Log.d(TAG,"Ошибка добавления факультета",t)
+                    Log.d(TAG,"Ошибка добавления менеджера",t)
                 }
             })
     }
 
-    fun updateRestaurant(manager: Manager){
+    fun updateManager(manager: Manager){
         listAPI.updateRestaurant(manager)
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response: Response<PostResult>){
-                    if (response.code()==200) fetchRestaurants()
+                    if (response.code()==200) fetchManagers()
                 }
                 override fun onFailure(call:Call<PostResult>,t: Throwable){
-                    Log.d(TAG,"Ошибка обновления факультета",t)
+                    Log.d(TAG,"Ошибка обновления менеджера",t)
                 }
             })
     }
 
-    fun deleteRestaurant(manager: Manager){
+    fun deleteManager(manager: Manager){
         listAPI.deleteRestaurant(PostId(manager.id))
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response: Response<PostResult>){
-                    if (response.code()==200) fetchRestaurants()
+                    if (response.code()==200) fetchManagers()
                 }
                 override fun onFailure(call:Call<PostResult>,t: Throwable){
-                    Log.d(TAG,"Ошибка удаления факультета",t)
+                    Log.d(TAG,"Ошибка удаления менеджера",t)
                 }
             })
     }
 
-    fun fetchCourses(){
+    fun fetchClients(){
         listAPI.getCourses().enqueue(object: Callback<Clients> {
             override fun onFailure(call: Call<Clients>, t: Throwable) {
-                Log.d(TAG, "Ошибка получения списка групп", t)
+                Log.d(TAG, "Ошибка получения списка клиентов", t)
             }
 
             override fun onResponse(
@@ -202,74 +203,74 @@ class AppRepository {
                 response: Response<Clients>
             ) {
                 if (response.code() == 200) {
-                    val courses = response.body()
-                    val items = courses?.items ?: emptyList()
-                    Log.d(TAG, "Получен список групп $items")
+                    val clients = response.body()
+                    val items = clients?.items ?: emptyList()
+                    Log.d(TAG, "Получен список клиентов $items")
                     myCoroutineScope.launch {
-                        listDB.deleteAllGroups()
+                        listDB.deleteAllClients()
                         for (g in items) {
-                            listDB.insertGroup(g)
+                            listDB.insertClient(g)
                         }
                     }
-                    fetchFoods()
+                    fetchInvoice()
                 }
             }
         })
     }
 
-    fun addCourse(client: Client){
+    fun addClient(client: Client){
         listAPI.insertCourse(client)
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response:Response<PostResult>){
-                    if (response.code()==200) fetchCourses()
+                    if (response.code()==200) fetchClients()
                 }
                 override fun onFailure(call:Call<PostResult>,t:Throwable){
-                    Log.d(TAG,"Ошибка обновления группы", t)
+                    Log.d(TAG,"Ошибка обновления клиентов", t)
                 }
             })
     }
 
-    fun updateCourse(client: Client){
+    fun updateClient(client: Client){
         listAPI.updateCourse(client)
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response:Response<PostResult>){
-                    if (response.code()==200) fetchCourses()
+                    if (response.code()==200) fetchClients()
                 }
                 override fun onFailure(call:Call<PostResult>,t:Throwable){
-                    Log.d(TAG,"Ошибка записи группы", t)
+                    Log.d(TAG,"Ошибка записи клиентов", t)
                 }
             })
     }
 
-    fun deleteCourse(client: Client){
+    fun deleteClient(client: Client){
         listAPI.deleteCourse(PostId(client.id))
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response:Response<PostResult>){
-                    if (response.code()==200) fetchCourses()
+                    if (response.code()==200) fetchClients()
                 }
                 override fun onFailure(call:Call<PostResult>,t:Throwable){
-                    Log.d(TAG,"Ошибка удаления группы", t)
+                    Log.d(TAG,"Ошибка удаления клиентов", t)
                 }
             })
     }
 
-    fun fetchFoods(){
+    fun fetchInvoice(){
         listAPI.getFoods().enqueue(object : Callback<Invoices>{
             override fun onFailure(call:Call<Invoices>, t : Throwable){
-                Log.d(TAG,"Ошибка получения списка студентов",t)
+                Log.d(TAG,"Ошибка получения списка накладных",t)
             }
             override fun onResponse(
                 call:Call<Invoices>,
                 response: Response<Invoices>
             ){
                 if(response.code()==200){
-                    val foods = response.body()
-                    val items = foods?.items?: emptyList()
-                    Log.d(TAG,"Получен список студентов $items")
+                    val invoices = response.body()
+                    val items = invoices?.items?: emptyList()
+                    Log.d(TAG,"Получен список накладных $items")
                     myCoroutineScope.launch {
-                        listDB.deleteAllStudents()
+                        listDB.deleteAllInvoices()
                         for (s in items){
-                            listDB.insertStudent(s)
+                            listDB.insertInvoice(s)
                         }
                     }
                 }
@@ -277,38 +278,38 @@ class AppRepository {
         })
     }
 
-    fun addFood(invoice: Invoice){
+    fun addInvoice(invoice: Invoice){
         listAPI.insertFood(invoice)
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response:Response<PostResult>){
-                    if (response.code()==200) fetchFoods()
+                    if (response.code()==200) fetchInvoice()
                 }
                 override fun onFailure(call:Call<PostResult>,t:Throwable){
-                    Log.d(TAG,"Ошибка записи студента", t.fillInStackTrace())
+                    Log.d(TAG,"Ошибка записи накладных", t.fillInStackTrace())
                 }
             })
     }
 
-    fun updateFood(invoice: Invoice){
+    fun updateInvoice(invoice: Invoice){
         listAPI.updateFood(invoice)
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response:Response<PostResult>){
-                    if (response.code()==200) fetchFoods()
+                    if (response.code()==200) fetchInvoice()
                 }
                 override fun onFailure(call:Call<PostResult>,t:Throwable){
-                    Log.d(TAG,"Ошибка обновления студента", t.fillInStackTrace())
+                    Log.d(TAG,"Ошибка обновления накладных", t.fillInStackTrace())
                 }
             })
     }
 
-    fun deleteFood(invoice: Invoice){
+    fun deleteInvoice(invoice: Invoice){
         listAPI.deleteFood(PostId(invoice.id))
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response:Response<PostResult>){
-                    if (response.code()==200) fetchFoods()
+                    if (response.code()==200) fetchInvoice()
                 }
                 override fun onFailure(call:Call<PostResult>,t:Throwable){
-                    Log.d(TAG,"Ошибка удаления студента", t.fillInStackTrace())
+                    Log.d(TAG,"Ошибка удаления накладных", t.fillInStackTrace())
                 }
             })
     }
@@ -316,7 +317,7 @@ class AppRepository {
     fun login(userName: String, pwd : String, dickandballs : TextView){
         listAPI.login(PostUser(userName,pwd)).enqueue(object: Callback<Spasibo> {
             override fun onFailure(call: Call<Spasibo>, t: Throwable) {
-                Log.d(TAG, "Ошибка получения списка групп", t)
+                Log.d(TAG, "Ошибка получения логина", t)
             }
 
             override fun onResponse(

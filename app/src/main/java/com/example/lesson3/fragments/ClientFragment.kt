@@ -19,21 +19,21 @@ import com.example.lesson3.interfaces.MainActivityCallbacks
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class CourseFragment : Fragment(), MainActivity.Edit {
+class ClientFragment : Fragment(), MainActivity.Edit {
 
     companion object {
-        private var INSTANCE : CourseFragment?= null
-        fun getInstance(): CourseFragment {
-            if (INSTANCE == null) INSTANCE= CourseFragment()
+        private var INSTANCE : ClientFragment?= null
+        fun getInstance(): ClientFragment {
+            if (INSTANCE == null) INSTANCE= ClientFragment()
             return INSTANCE ?: throw Exception("GroupFragment ne sozdan")
         }
-        fun newInstance() : CourseFragment{
-            INSTANCE= CourseFragment()
+        fun newInstance() : ClientFragment{
+            INSTANCE= ClientFragment()
             return INSTANCE!!
         }
     }
 
-    private lateinit var viewModel: CourseViewModel
+    private lateinit var viewModel: ClientViewModel
     private var tabPosition: Int=0
     private lateinit var _binding: FragmentGroupBinding
     private val binding get()= _binding!!
@@ -49,7 +49,7 @@ class CourseFragment : Fragment(), MainActivity.Edit {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(CourseViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ClientViewModel::class.java)
         val ma= (requireActivity() as MainActivityCallbacks)
         ma.newTitle("Ресторан \"${viewModel.faculty?.name}\"")
 
@@ -65,7 +65,7 @@ class CourseFragment : Fragment(), MainActivity.Edit {
         }
 
         override fun createFragment(position: Int): Fragment{
-            return FoodFragment.newInstance((cours!![position]))
+            return InvoiceFragment.newInstance((cours!![position]))
         }
     }
 

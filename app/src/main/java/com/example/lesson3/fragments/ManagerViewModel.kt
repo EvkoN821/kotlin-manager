@@ -7,7 +7,7 @@ import com.example.lesson3.data.Manager
 import com.example.lesson3.myConsts.TAG
 import com.example.lesson3.repository.AppRepository
 
-class RestaurantViewModel : ViewModel() {
+class ManagerViewModel : ViewModel() {
 
     var managerList: LiveData<List<Manager>> = AppRepository.getInstance().listOfManager
     private var _manager : Manager = Manager()
@@ -23,24 +23,24 @@ class RestaurantViewModel : ViewModel() {
 
     fun deleteFaculty(){
         if (faculty!=null)
-            AppRepository.getInstance().deleteRestaurant(faculty!!)
+            AppRepository.getInstance().deleteManager(faculty!!)
     }
 
     fun appendFaculty(facultyName: String){
         val manager=Manager()
         manager.name=facultyName
-        AppRepository.getInstance().addRestaurant(manager)
+        AppRepository.getInstance().addManager(manager)
     }
 
     fun updateFaculty(facultyName: String){
         if (_manager!=null){
             _manager!!.name=facultyName
-            AppRepository.getInstance().updateRestaurant(_manager!!)
+            AppRepository.getInstance().updateManager(_manager!!)
         }
     }
 
     fun setFaculty(manager: Manager){
-        AppRepository.getInstance().setCurrentRestaurant(manager)
+        AppRepository.getInstance().setCurrentManager(manager)
     }
 }
 

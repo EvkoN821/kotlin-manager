@@ -23,7 +23,7 @@ import java.util.Date
 data class Invoice(
     @SerializedName("id") @PrimaryKey val id: Int=0, //UUID = UUID.randomUUID(),
     @SerializedName("date1") var date1: Date = Date(),
-    @SerializedName("id_invoice") var id_invoice: Int=0,
+    @SerializedName("id_invoice") var id_invoice: String="",
     @SerializedName("sum_total") var sum_total: Int=0,
     @SerializedName("date_exec") var date_exec: Date = Date(),
     @SerializedName("handed") var handed: String="",

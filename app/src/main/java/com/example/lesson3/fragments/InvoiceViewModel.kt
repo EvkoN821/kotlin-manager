@@ -6,7 +6,7 @@ import com.example.lesson3.data.Client
 import com.example.lesson3.data.Invoice
 import com.example.lesson3.repository.AppRepository
 
-class FoodViewModel : ViewModel() {
+class InvoiceViewModel : ViewModel() {
     var invoiceList: MutableLiveData<List<Invoice>> = MutableLiveData()
 
     private var _invoice: Invoice?= null
@@ -17,15 +17,15 @@ class FoodViewModel : ViewModel() {
     fun update_info(typeSort: Int){
         if (typeSort == 1)
             AppRepository.getInstance().listOfInvoice.observeForever{
-                invoiceList.postValue(AppRepository.getInstance().getCourseFoods(this.client!!.id))
+                invoiceList.postValue(AppRepository.getInstance().getClientInvoices(this.client!!.id))
             }
         if (typeSort == 2)
             AppRepository.getInstance().listOfInvoice.observeForever{
-                invoiceList.postValue(AppRepository.getInstance().getCourseFoodsByPrice(client!!.id))
+                invoiceList.postValue(AppRepository.getInstance().getClientInvoicesId(client!!.id))
             }
         if (typeSort == 3)
             AppRepository.getInstance().listOfInvoice.observeForever{
-                invoiceList.postValue(AppRepository.getInstance().getCourseFoodsByWeight(client!!.id))
+                invoiceList.postValue(AppRepository.getInstance().getclientInvoicesSum(client!!.id))
             }
         AppRepository.getInstance().invoice.observeForever{
             _invoice=it
@@ -39,7 +39,7 @@ class FoodViewModel : ViewModel() {
     fun set_Group(client: Client) {
         this.client = client
         AppRepository.getInstance().listOfInvoice.observeForever {
-            invoiceList.postValue(AppRepository.getInstance().getCourseFoods(client.id))
+            invoiceList.postValue(AppRepository.getInstance().getClientInvoices(client.id))
         }
         AppRepository.getInstance().invoice.observeForever{
             _invoice=it
@@ -48,10 +48,10 @@ class FoodViewModel : ViewModel() {
 
     fun deleteStudent() {
         if(student!=null)
-            AppRepository.getInstance().deleteFood(student!!)
+            AppRepository.getInstance().deleteInvoice(student!!)
     }
     fun update_info(){
-        AppRepository.getInstance().fetchFoods()
+        AppRepository.getInstance().fetchInvoice()
     }
 
     fun appendStudent(name:String, weight:Int, price:Int, calories:Int, info:String, comp:String, prep:Int){
@@ -64,7 +64,7 @@ class FoodViewModel : ViewModel() {
         invoice.clientID = client!!.id
         invoice.comp = comp
         invoice.prep = prep
-        AppRepository.getInstance().addFood(invoice)
+        AppRepository.getInstance().addInvoice(invoice)
     }
 
     fun updateStudent(name:String, weight:Int, price:Int, calories:Int, info:String, comp:String, prep:Int){
@@ -76,12 +76,12 @@ class FoodViewModel : ViewModel() {
             _invoice!!.info = info
             _invoice!!.comp = comp
             _invoice!!.prep = prep
-            AppRepository.getInstance().updateFood(_invoice!!)
+            AppRepository.getInstance().updateInvoice(_invoice!!)
         }
     }
 
     fun setCurrentStudent(invoice: Invoice){
-        AppRepository.getInstance().setCurrentFood(invoice)
+        AppRepository.getInstance().setCurrentInvoice(invoice)
     }
 
 }
