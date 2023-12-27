@@ -16,48 +16,48 @@ import retrofit2.http.PUT
 
 interface ListAPI{
     @GET("manager")
-    fun getRestaurants(): Call<Managers>
+    fun getManagers(): Call<Managers>
 
     @Headers("Content-Type: application/json")
     @POST("manager")
-    fun updateRestaurant(@Body faculty: Manager): Call<PostResult>
+    fun updateManager(@Body faculty: Manager): Call<PostResult>
 
     @Headers("Content-Type: application/json")
     @POST("manager/delete")
-    fun deleteRestaurant(@Body id: PostId): Call<PostResult>
+    fun deleteManager(@Body id: PostId): Call<PostResult>
 
     @Headers("Content-Type: application/json")
     @PUT("manager")
-    fun insertRestaurant(@Body faculty: Manager): Call<PostResult>
+    fun insertManager(@Body faculty: Manager): Call<PostResult>
 
     @GET("client")
-    fun getCourses(): Call<Clients>
+    fun getClients(): Call<Clients>
     @Headers("Content-Type: application/json")
     @POST("client")
-    fun updateCourse(@Body client: Client): Call<PostResult>
+    fun updateClients(@Body client: Client): Call<PostResult>
 
     @Headers("Content-Type: application/json")
     @POST("client/delete")
-    fun deleteCourse(@Body id: PostId): Call<PostResult>
+    fun deleteClient(@Body id: PostId): Call<PostResult>
 
     @Headers("Content-Type: application/json")
     @PUT("client")
-    fun insertCourse(@Body client: Client): Call<PostResult>
+    fun insertClient(@Body client: Client): Call<PostResult>
 
     @GET("invoice")
-    fun getFoods(): Call<Invoices>
+    fun getInvoices(): Call<Invoices>
 
     @Headers("Content-Type: application/json")
     @POST("invoice")
-    fun updateFood(@Body invoice: Invoice): Call<PostResult>
+    fun updateInvoice(@Body invoice: Invoice): Call<PostResult>
 
     @Headers("Content-Type: application/json")
     @POST("invoice/delete")
-    fun deleteFood(@Body id: PostId): Call<PostResult>
+    fun deleteInvoice(@Body id: PostId): Call<PostResult>
 
     @Headers("Content-Type: application/json")
     @PUT("invoice")
-    fun insertFood(@Body invoice: Invoice): Call<PostResult>
+    fun insertInvoice(@Body invoice: Invoice): Call<PostResult>
 
     @Headers("Content-Type: application/json")
     @POST("user")

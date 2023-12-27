@@ -51,7 +51,7 @@ class ClientFragment : Fragment(), MainActivity.Edit {
 
         viewModel = ViewModelProvider(this).get(ClientViewModel::class.java)
         val ma= (requireActivity() as MainActivityCallbacks)
-        ma.newTitle("Ресторан \"${viewModel.faculty?.name}\"")
+        ma.newTitle("Клиент \"${viewModel.manager?.name}\"")
 
         viewModel.clientList.observe(viewLifecycleOwner
         ) {
@@ -86,7 +86,7 @@ class ClientFragment : Fragment(), MainActivity.Edit {
             tab.text=clientList.get(pos).name
         }.attach()
         tabPosition=0
-        if(viewModel.group!=null)
+        if(viewModel.client!=null)
             tabPosition = if(viewModel.getGroupListPosition>=0)
                 viewModel.getGroupListPosition
         else
@@ -114,7 +114,7 @@ class ClientFragment : Fragment(), MainActivity.Edit {
     }
 
     override fun update(){
-        editGroup(viewModel.group?.name ?: "")
+        editGroup(viewModel.client?.name ?: "")
     }
 
     override fun delete(){
@@ -122,10 +122,10 @@ class ClientFragment : Fragment(), MainActivity.Edit {
     }
 
     private fun deleteDialog(){
-        if (viewModel.group==null) return
+        if (viewModel.client==null) return
         AlertDialog.Builder(requireContext())
             .setTitle("Удаление!")
-            .setMessage("Вы действительно хотите удалить категорию блюд ${viewModel.group?.name ?: ""}?")
+            .setMessage("Вы действительно хотите удалить клиента ${viewModel.client?.name ?: ""}?")
             .setPositiveButton("ДА"){_,_ ->
                 viewModel.deleteGroup()
             }
@@ -140,7 +140,7 @@ class ClientFragment : Fragment(), MainActivity.Edit {
         val messageText = mDialogView.findViewById<TextView>(R.id.tvInfo)
         val inputString = mDialogView.findViewById<EditText>(R.id.etString)
         inputString.setText(groupName)
-        messageText.text="Укажите наименование категории блюд"
+        messageText.text="Укажите наименование клиента"
 
         AlertDialog.Builder(requireContext())
             .setTitle("ИЗМЕНЕНИЕ ДАННЫХ")

@@ -128,7 +128,7 @@ class AppRepository {
     private var listAPI = ListConnection.getClient().create(ListAPI::class.java)
 
     fun fetchManagers(){
-        listAPI.getRestaurants().enqueue(object: Callback<Managers> {
+        listAPI.getManagers().enqueue(object: Callback<Managers> {
             override fun onFailure(call: Call<Managers>, t :Throwable){
                 Log.d(TAG,"Ошибка получения списка факультетов", t)
             }
@@ -157,7 +157,7 @@ class AppRepository {
     }
 
     fun addManager(manager: Manager){
-        listAPI.insertRestaurant(manager)
+        listAPI.insertManager(manager)
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response: Response<PostResult>){
                     if (response.code()==200) fetchManagers()
@@ -169,7 +169,7 @@ class AppRepository {
     }
 
     fun updateManager(manager: Manager){
-        listAPI.updateRestaurant(manager)
+        listAPI.updateManager(manager)
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response: Response<PostResult>){
                     if (response.code()==200) fetchManagers()
@@ -181,7 +181,7 @@ class AppRepository {
     }
 
     fun deleteManager(manager: Manager){
-        listAPI.deleteRestaurant(PostId(manager.id))
+        listAPI.deleteManager(PostId(manager.id))
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response: Response<PostResult>){
                     if (response.code()==200) fetchManagers()
@@ -193,7 +193,7 @@ class AppRepository {
     }
 
     fun fetchClients(){
-        listAPI.getCourses().enqueue(object: Callback<Clients> {
+        listAPI.getClients().enqueue(object: Callback<Clients> {
             override fun onFailure(call: Call<Clients>, t: Throwable) {
                 Log.d(TAG, "Ошибка получения списка клиентов", t)
             }
@@ -219,7 +219,7 @@ class AppRepository {
     }
 
     fun addClient(client: Client){
-        listAPI.insertCourse(client)
+        listAPI.insertClient(client)
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response:Response<PostResult>){
                     if (response.code()==200) fetchClients()
@@ -231,7 +231,7 @@ class AppRepository {
     }
 
     fun updateClient(client: Client){
-        listAPI.updateCourse(client)
+        listAPI.updateClients(client)
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response:Response<PostResult>){
                     if (response.code()==200) fetchClients()
@@ -243,7 +243,7 @@ class AppRepository {
     }
 
     fun deleteClient(client: Client){
-        listAPI.deleteCourse(PostId(client.id))
+        listAPI.deleteClient(PostId(client.id))
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response:Response<PostResult>){
                     if (response.code()==200) fetchClients()
@@ -255,7 +255,7 @@ class AppRepository {
     }
 
     fun fetchInvoice(){
-        listAPI.getFoods().enqueue(object : Callback<Invoices>{
+        listAPI.getInvoices().enqueue(object : Callback<Invoices>{
             override fun onFailure(call:Call<Invoices>, t : Throwable){
                 Log.d(TAG,"Ошибка получения списка накладных",t)
             }
@@ -279,7 +279,7 @@ class AppRepository {
     }
 
     fun addInvoice(invoice: Invoice){
-        listAPI.insertFood(invoice)
+        listAPI.insertInvoice(invoice)
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response:Response<PostResult>){
                     if (response.code()==200) fetchInvoice()
@@ -291,7 +291,7 @@ class AppRepository {
     }
 
     fun updateInvoice(invoice: Invoice){
-        listAPI.updateFood(invoice)
+        listAPI.updateInvoice(invoice)
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response:Response<PostResult>){
                     if (response.code()==200) fetchInvoice()
@@ -303,7 +303,7 @@ class AppRepository {
     }
 
     fun deleteInvoice(invoice: Invoice){
-        listAPI.deleteFood(PostId(invoice.id))
+        listAPI.deleteInvoice(PostId(invoice.id))
             .enqueue(object : Callback<PostResult>{
                 override fun onResponse(call:Call<PostResult>,response:Response<PostResult>){
                     if (response.code()==200) fetchInvoice()

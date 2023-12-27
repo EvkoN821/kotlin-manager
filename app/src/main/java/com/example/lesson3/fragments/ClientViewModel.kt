@@ -11,7 +11,7 @@ class ClientViewModel : ViewModel() {
 
     var clientList: MutableLiveData<List<Client>> = MutableLiveData()
     private var _client : Client? = null
-    val group
+    val client
         get()=_client
 
     init {
@@ -30,14 +30,14 @@ class ClientViewModel : ViewModel() {
     }
 
     fun deleteGroup(){
-        if(group!=null)
-            AppRepository.getInstance().deleteClient(group!!)
+        if(client!=null)
+            AppRepository.getInstance().deleteClient(client!!)
     }
 
     fun appendGroup(groupName: String){
         val client=Client()
         client.name=groupName
-        client.mangerID=faculty!!.id
+        client.mangerID=manager!!.id
         AppRepository.getInstance().addClient(client)
     }
 
@@ -58,8 +58,8 @@ class ClientViewModel : ViewModel() {
     }
 
     val getGroupListPosition
-        get()= clientList.value?.indexOfFirst { it.id==group?.id } ?: -1
+        get()= clientList.value?.indexOfFirst { it.id==client?.id } ?: -1
 
-    val faculty
+    val manager
         get()=AppRepository.getInstance().manager.value
 }
