@@ -91,13 +91,14 @@ class InvoiceFragment : Fragment(){
     private fun infoDialog(){
         AlertDialog.Builder(requireContext())
             .setTitle("Полная информация")
-//            .setMessage("Наименование блюда: ${viewModel.student?.shortName ?: ""} " +
-//                    "\n\nВес блюда: ${viewModel.student?.getWeight ?: ""} гр." +
-//                    "\n\nЦена: ${viewModel.student?.getPrice ?: ""} руб." +
-//                    "\n\nКалории: ${viewModel.student?.calories ?: ""} ккал." +
-//                    "\n\nДополнительная информация: ${viewModel.student?.info ?: ""}" +
-//                    "\n\nИнгридиенты: ${viewModel.student?.comp ?: ""}" +
-//                    "\n\nВремя приготовления: ${viewModel.student?.prep ?: ""} минут")
+            .setMessage("дата: ${viewModel.student?.date1 ?: ""} " +
+                    "\n\nномер: ${viewModel.student?.id_invoice ?: ""}" +
+                    "\n\nсумма: ${viewModel.student?.sum_total ?: ""} руб." +
+                    "\n\nдата исполнения: ${viewModel.student?.date_exec ?: ""}" +
+                    "\n\nгрузоотправитель: ${viewModel.student?.handed ?: ""}" +
+                    "\n\nгрузополучатель: ${viewModel.student?.accepted ?: ""}" +
+                    "\n\nдополнительная информация: ${viewModel.student?.add_info ?: ""}" +
+                    "\n\nдокумент-основание: ${viewModel.student?.basis_doc ?: ""}")
             .setMessage("dasdsaasdadsdasads")
             .setNegativeButton("скрыть", null)
             .setCancelable(true)
@@ -146,37 +147,33 @@ class InvoiceFragment : Fragment(){
                     this.invoice= invoice
                     if (invoice==viewModel.student)
                         updateCurrentView(itemView)
-                    val tvName = itemView.findViewById<TextView>(R.id.tvName)
-                    tvName.text="дата: " + invoice.date1
-                    val tvWeight = itemView.findViewById<TextView>(R.id.tvWeight)
-                    tvWeight.text= "номер накладной: " +invoice.id_invoice.toString()
+                    val tvDate1 = itemView.findViewById<TextView>(R.id.tvDate1)
+                    tvDate1.text="дата: " + invoice.date1
+                    val tvId = itemView.findViewById<TextView>(R.id.tvId)
+                    tvId.text= "номер накладной: " +invoice.id_invoice.toString()
                     val tvPrice = itemView.findViewById<TextView>(R.id.tvPrice)
                     tvPrice.text= "сумма: " + invoice.sum_total.toString() + "руб."
                     val tvDateEx = itemView.findViewById<TextView>(R.id.tvDateEx)
                     tvDateEx.text= "сумма: " + invoice.date_exec.toString()
-//                    viewModel.set_Group(client, 1)
-//                    tvName.setOnClickListener {
-//                        viewModel.update_info(1)
-//                    }
-//                    tvWeight.setOnClickListener {
-//                        viewModel.update_info(3)
-//                    }
-//                    tvPrice.setOnClickListener {
-//                        viewModel.update_info( 2)
-//                    }
-                    tvName.setOnLongClickListener {
-                        tvName.callOnClick()
+
+                    tvDate1.setOnLongClickListener {
+                        tvDate1.callOnClick()
                         viewModel.update_info(1)
                         true
                     }
-                    tvWeight.setOnLongClickListener{
-                        tvWeight.callOnClick()
-                        viewModel.update_info(3)
+                    tvId.setOnLongClickListener{
+                        tvId.callOnClick()
+                        viewModel.update_info(2)
                         true
                     }
                     tvPrice.setOnLongClickListener{
                         tvPrice.callOnClick()
-                        viewModel.update_info(2)
+                        viewModel.update_info(3)
+                        true
+                    }
+                    tvDateEx.setOnLongClickListener{
+                        tvDateEx.callOnClick()
+                        viewModel.update_info(4)
                         true
                     }
 

@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvDate1"
         android:layout_width="182dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
@@ -61,13 +61,13 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvWeight"
+        android:id="@+id/tvId"
         android:layout_width="182dp"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/llStudentButtons"
         app:layout_constraintStart_toEndOf="@+id/ibInfo"
-        app:layout_constraintTop_toBottomOf="@+id/tvName" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDate1" />
 
     <TextView
         android:id="@+id/tvPrice"
@@ -76,7 +76,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/llStudentButtons"
         app:layout_constraintStart_toEndOf="@+id/ibInfo"
-        app:layout_constraintTop_toBottomOf="@+id/tvWeight" />
+        app:layout_constraintTop_toBottomOf="@+id/tvId" />
 
     <TextView
         android:id="@+id/tvDateEx"

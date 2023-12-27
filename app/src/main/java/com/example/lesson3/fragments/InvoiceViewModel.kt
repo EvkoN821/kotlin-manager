@@ -28,6 +28,10 @@ class InvoiceViewModel : ViewModel() {
             AppRepository.getInstance().listOfInvoice.observeForever{
                 invoiceList.postValue(AppRepository.getInstance().getclientInvoicesSum(client!!.id))
             }
+        if (typeSort == 4)
+            AppRepository.getInstance().listOfInvoice.observeForever{
+                invoiceList.postValue(AppRepository.getInstance().getclientInvoicesDateExec(client!!.id))
+            }
         AppRepository.getInstance().invoice.observeForever{
             _invoice=it
         }

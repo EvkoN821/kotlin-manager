@@ -100,7 +100,7 @@ class AppRepository {
     }
 
     fun getClientInvoices(clientID: Int) =
-        (listOfInvoice.value?.filter { it.clientID == clientID }?.sortedBy { it.date1.toString() }?: listOf())
+        (listOfInvoice.value?.filter { it.clientID == clientID }?.sortedBy { it.date1 }?: listOf())
     fun getClientInvoicesId(clientID: Int) =
         (listOfInvoice.value?.filter { it.clientID == clientID }?.sortedBy { it.id_invoice }?: listOf())
     fun getclientInvoicesSum(clientID: Int) =
