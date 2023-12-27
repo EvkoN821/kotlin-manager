@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/miAppendFaculty"
+        android:title="Добавить ресторан" />
+    <item
+        android:id="@+id/miUpdateFaculty"
+        android:title="Изменить ресторан" />
+    <item
+        android:id="@+id/miDeleteFaculty"
+        android:title="Удалить ресторан" />
+    <item
+        android:id="@+id/miAppendGroup"
+        android:title="Добавить категорию" />
+    <item
+        android:id="@+id/miUpdateGroup"
+        android:title="Изменить категорию" />
+    <item
+        android:id="@+id/miDeleteGroup"
+        android:title="Удалить категорию" />
+</menu>
